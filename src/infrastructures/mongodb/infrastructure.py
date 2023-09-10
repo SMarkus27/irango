@@ -9,11 +9,10 @@ from src.core.interfaces.infrastructures.mongodb.interface import IMongoDBInfras
 class MongoDBInfrastructure(IMongoDBInfrastructure):
 
     mongodb_client = None
-    mongodb_url_connection = config("MONGODB_URL_CONNECTION")
+    mongodb_url_connection: str = config("MONGODB_URL_CONNECTION")
 
     @classmethod
-    def get_client(cls):
-        print(cls.mongodb_url_connection)
+    def get_client(cls) -> AsyncIOMotorClient:
         try:
             if cls.mongodb_client is None:
                 cls.mongodb_client = AsyncIOMotorClient(cls.mongodb_url_connection)
