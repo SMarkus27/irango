@@ -7,7 +7,6 @@ from src.core.interfaces.infrastructures.mongodb.interface import IMongoDBInfras
 
 
 class MongoDBInfrastructure(IMongoDBInfrastructure):
-
     mongodb_client = None
     mongodb_url_connection: str = config("MONGODB_URL_CONNECTION")
 
@@ -21,4 +20,3 @@ class MongoDBInfrastructure(IMongoDBInfrastructure):
         except Exception as error:
             print(f"error: {error}")
             raise error
-

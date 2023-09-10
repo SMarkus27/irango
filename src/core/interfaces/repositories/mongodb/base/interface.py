@@ -6,7 +6,6 @@ from pymongo.results import DeleteResult, UpdateResult
 
 
 class IBaseMongoDBRepository(metaclass=ABCMeta):
-
     @classmethod
     @abstractmethod
     async def insert_one(cls, data) -> None:
@@ -19,7 +18,13 @@ class IBaseMongoDBRepository(metaclass=ABCMeta):
 
     @classmethod
     @abstractmethod
-    async def update_one(cls, query: dict, update_data: dict, array_filters: list = None, upsert: bool = False) -> UpdateResult:
+    async def update_one(
+        cls,
+        query: dict,
+        update_data: dict,
+        array_filters: list = None,
+        upsert: bool = False,
+    ) -> UpdateResult:
         pass
 
     @classmethod
