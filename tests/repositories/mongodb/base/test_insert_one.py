@@ -6,7 +6,9 @@ import pytest
 
 # IRango
 from src.repositories.mongodb.base.repository import BaseMongoDBRepository
-from tests.repositories.mongodb.base.stub_mongodb_operations import StubMongoDBOperations
+from tests.repositories.mongodb.base.stub_mongodb_operations import (
+    StubMongoDBOperations,
+)
 
 
 @pytest.mark.asyncio
@@ -19,6 +21,3 @@ async def test_insert_one(_get_mongodb_base_collection_patch: MagicMock):
     }
     result = await BaseMongoDBRepository.insert_one(data)
     assert result is None
-
-
-

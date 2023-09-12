@@ -11,7 +11,9 @@ from tests.infrastructures.mongodb.stub import StubAsyncIOMotorClient
 
 @pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_set_mongodb_base_collection")
-async def test_get_mongodb_base_collection_non_empty_collection(_set_mongodb_base_collection_patch: MagicMock):
+async def test_get_mongodb_base_collection_non_empty_collection(
+    _set_mongodb_base_collection_patch: MagicMock,
+):
     BaseMongoDBRepository._mongodb_collection_in_connection = None
 
     _set_mongodb_base_collection_patch.return_value = StubAsyncIOMotorClient
@@ -21,7 +23,9 @@ async def test_get_mongodb_base_collection_non_empty_collection(_set_mongodb_bas
 
 @pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_set_mongodb_base_collection")
-async def test_get_mongodb_base_collection_non_empty_collection(_set_mongodb_base_collection_patch: MagicMock):
+async def test_get_mongodb_base_collection_non_empty_collection(
+    _set_mongodb_base_collection_patch: MagicMock,
+):
     BaseMongoDBRepository._mongodb_collection_in_connection = None
 
     _set_mongodb_base_collection_patch.return_value = StubAsyncIOMotorClient

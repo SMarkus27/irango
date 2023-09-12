@@ -9,6 +9,7 @@ from src.infrastructures.mongodb.infrastructure import MongoDBInfrastructure
 from src.repositories.mongodb.base.repository import BaseMongoDBRepository
 from tests.infrastructures.mongodb.stub import StubAsyncIOMotorClient
 
+
 @pytest.mark.asyncio
 async def test_set_mongodb_base_collection_invalid():
     with pytest.raises(Exception):

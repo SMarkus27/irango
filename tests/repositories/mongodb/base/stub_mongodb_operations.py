@@ -1,5 +1,4 @@
 class StubMongoDBOperations:
-
     def __init__(self, data=None):
         self.insert_one_called = False
         self.find_one_called = False
@@ -18,7 +17,13 @@ class StubMongoDBOperations:
     def find(self, query: dict, projection: dict):
         return StubMongoDBOperations(self.data)
 
-    async def update_one(self, query, update_data, array_filters: list | None = None, upsert: bool = False):
+    async def update_one(
+        self,
+        query,
+        update_data,
+        array_filters: list | None = None,
+        upsert: bool = False,
+    ):
         self.update_one_called = True
 
     async def delete_one(self, query):

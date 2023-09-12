@@ -6,7 +6,9 @@ import pytest
 
 # IRango
 from src.repositories.mongodb.base.repository import BaseMongoDBRepository
-from tests.repositories.mongodb.base.stub_mongodb_operations import StubMongoDBOperations
+from tests.repositories.mongodb.base.stub_mongodb_operations import (
+    StubMongoDBOperations,
+)
 
 
 @pytest.mark.asyncio
