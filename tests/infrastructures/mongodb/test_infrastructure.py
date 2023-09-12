@@ -20,7 +20,6 @@ def test_get_client(mongodb_client_patch: MagicMock):
 
 @patch.object(AsyncIOMotorClient, "__new__")
 def test_get_client_client_already_created(mongodb_client_patch: MagicMock):
-
     stub = StubAsyncIOMotorClient()
     mongodb_client_patch.return_value = stub
 
@@ -33,7 +32,6 @@ def test_get_client_client_already_created(mongodb_client_patch: MagicMock):
 
 @patch.object(AsyncIOMotorClient, "__new__")
 def test_get_client_error(mongodb_client_patch: MagicMock):
-
     with pytest.raises(Exception):
         mongodb_client_patch.side_effect = Exception
         MongoDBInfrastructure.get_client()
