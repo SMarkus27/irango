@@ -5,7 +5,7 @@ from unittest.mock import patch, MagicMock
 import pytest
 
 # IRango
-from src.repositories.mongodb.base.repository import BaseMongoDBRepository
+from src.repositories.bases.mongodb.repository import BaseMongoDBRepository
 from tests.infrastructures.mongodb.stub import StubAsyncIOMotorClient
 
 
