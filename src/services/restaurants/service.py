@@ -65,7 +65,7 @@ class RestaurantsService(IRestaurantsService):
 
         skip = calculate_skip(limit, page)
 
-        sort = payload.get("sort")
+        sort = payload.get("sort", "name")
         results, total_items = await restaurant_repository.find_all_paginated(
             query, projection, skip, limit, sort
         )
@@ -100,8 +100,10 @@ class RestaurantsService(IRestaurantsService):
         update_data = payload.get("update_data")
         update_result = await restaurant_repository.update_one(query, update_data)
 
-        if update_result.modified_count > 1:
+        if update_result.modified_count > 0:
             return {"message": f"Restaurant updated", "status_code": 204}
+
+        return {"message": f"Restaurant not updated", "status_code": 200}
 
     @classmethod
     async def delete_restaurant(
@@ -117,3 +119,5 @@ class RestaurantsService(IRestaurantsService):
             return {"message": f"Restaurant not found", "status_code": 204}
 
         await restaurant_repository.delete_one(query)
+
+        return {"message": f"Restaurant deleted", "status_code": 204}
