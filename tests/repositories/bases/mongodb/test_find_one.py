@@ -5,8 +5,8 @@ from unittest.mock import patch, MagicMock
 import pytest
 
 # IRango
-from src.repositories.mongodb.base.repository import BaseMongoDBRepository
-from tests.repositories.mongodb.base.stub_mongodb_operations import (
+from src.repositories.bases.mongodb.repository import BaseMongoDBRepository
+from tests.repositories.bases.mongodb.stub_mongodb_operations import (
     StubMongoDBOperations,
 )
 
