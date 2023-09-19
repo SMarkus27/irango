@@ -2,7 +2,6 @@ from flask_smorest import Blueprint
 
 from src.domain.schemas.products.schema import ProductSchema
 from src.services.products.service import ProductsService
-from asyncio import run
 
 products = Blueprint("products", "products", description="products")
 
