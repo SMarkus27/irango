@@ -7,7 +7,7 @@ from src.repositories.restaurants.repository import RestaurantsRepository
 
 class ProductsService(IProductsService):
     @classmethod
-    async def create_product(
+    def create_product(
         cls,
         payload: dict,
         restaurant_repository=RestaurantsRepository,
@@ -17,7 +17,7 @@ class ProductsService(IProductsService):
         query = {"restaurant_id": restaurant_id}
         projection = {"_id": False}
 
-        restaurant_info = await restaurant_repository.find_one(query, projection)
+        restaurant_info = restaurant_repository.find_one(query, projection)
 
         if not restaurant_info:
             return {
@@ -26,9 +26,7 @@ class ProductsService(IProductsService):
             }
 
         product_data = payload.get("product_data")
-
-        products = product_data.get("products")
-        product_name = products.get("name")
+        product_name = product_data.get("name")
         product_in_restaurant = restaurant_info.get("products", {})
 
         for product in product_in_restaurant:
@@ -39,9 +37,8 @@ class ProductsService(IProductsService):
                     "status_code": 204,
                 }
 
-        products.update({"product_id": str(uuid4())})
-        product_data.update({"products": products})
-        result = await product_repository.add_one_in_array(query, product_data)
+        product_data.update({"product_id": str(uuid4())})
+        result = product_repository.add_one_in_array(query, {"products": product_data})
 
         if result.modified_count > 0:
             return {
@@ -55,7 +52,7 @@ class ProductsService(IProductsService):
             }
 
     @classmethod
-    async def find_one_product(
+    def find_one_product(
         cls, payload: dict, restaurant_repository=RestaurantsRepository, product_repository=ProductsRepository,
 
     ):
@@ -65,7 +62,7 @@ class ProductsService(IProductsService):
         query = {"restaurant_id": restaurant_id}
         projection = {"_id": False}
 
-        restaurant_info = await restaurant_repository.find_one(query, projection)
+        restaurant_info = restaurant_repository.find_one(query, projection)
         if not restaurant_info:
             return {
                 "message": f"Restaurant {restaurant_id} not found",
@@ -73,9 +70,9 @@ class ProductsService(IProductsService):
             }
 
         query_product = {"products": {"$elemMatch": {"product_id": product_id}}}
-        projection_product = {"_id": False, "products.$": 1}
+        projection_product = {"_id": False, "products": True}
 
-        product_info = await product_repository.find_one(query_product, projection_product)
+        product_info = product_repository.find_one(query_product, projection_product)
 
         if not product_info:
             return {"message": f"Product {product_id} not found", "status_code": 204}
@@ -87,14 +84,14 @@ class ProductsService(IProductsService):
         }
 
     @classmethod
-    async def find_all_product(
+    def find_all_product(
         cls, payload: dict, restaurant_repository=RestaurantsRepository
     ):
         restaurant_id = payload.get("restaurant_id")
         query = {"restaurant_id": restaurant_id}
         projection = {"_id": False, "products": True}
 
-        restaurant_info = await restaurant_repository.find_one(query, projection)
+        restaurant_info = restaurant_repository.find_one(query, projection)
 
         if not restaurant_info:
             return {
@@ -108,7 +105,7 @@ class ProductsService(IProductsService):
         }
 
     @classmethod
-    async def update_product(
+    def update_product(
         cls, payload: dict, restaurant_repository=RestaurantsRepository,  product_repository=ProductsRepository,
     ):
         restaurant_id = payload.get("restaurant_id")
@@ -116,7 +113,7 @@ class ProductsService(IProductsService):
 
         projection = {"_id": False}
 
-        restaurant_info = await restaurant_repository.find_one(query, projection)
+        restaurant_info = restaurant_repository.find_one(query, projection)
 
         if not restaurant_info:
             return {
@@ -125,12 +122,12 @@ class ProductsService(IProductsService):
             }
 
         product_id = payload.get("product_id")
-        product_data = payload.get("update_data")
+        product_data = payload.get("product_data")
         product_data.update({"product_id": product_id})
 
         query_product = {"products.product_id": product_id}
         product_data = {"products.$": product_data}
-        result = await product_repository.update_one(query_product, product_data)
+        result = product_repository.update_one(query_product, product_data)
 
         if result.modified_count > 0:
             return {
@@ -144,14 +141,14 @@ class ProductsService(IProductsService):
             }
 
     @classmethod
-    async def delete_product(
+    def delete_product(
         cls, payload: dict, restaurant_repository=RestaurantsRepository,  product_repository=ProductsRepository,
     ):
         restaurant_id = payload.get("restaurant_id")
         query = {"restaurant_id": restaurant_id}
         projection = {"_id": False}
 
-        restaurant_info = await restaurant_repository.find_one(query, projection)
+        restaurant_info = restaurant_repository.find_one(query, projection)
 
         if not restaurant_info:
             return {
@@ -162,7 +159,7 @@ class ProductsService(IProductsService):
         product_id = payload.get("product_id")
         new = {"products": {"product_id": product_id}}
 
-        result = await product_repository.delete_one_in_array(query, new)
+        result = product_repository.delete_one_in_array(query, new)
 
         if result.modified_count > 0:
             return {

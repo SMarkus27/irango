@@ -8,16 +8,16 @@ class StubMongoDBOperations:
         self.update_one_called = False
         self.delete_one_called = False
 
-    async def insert_one(self, data: dict):
+    def insert_one(self, data: dict):
         self.insert_one_called = True
 
-    async def find_one(self, data: dict, projection: dict):
+    def find_one(self, data: dict, projection: dict):
         return self.data
 
     def find(self, query: dict, projection: dict):
-        return StubMongoDBOperations(self.data)
+        return self.data
 
-    async def update_one(
+    def update_one(
         self,
         query,
         update_data,
@@ -26,10 +26,10 @@ class StubMongoDBOperations:
     ):
         self.update_one_called = True
 
-    async def delete_one(self, query):
+    def delete_one(self, query):
         self.delete_one_called = True
 
-    async def count_documents(self, query: dict):
+    def count_documents(self, query: dict):
         self.total_items = len(self.data)
         return self.total_items
 
@@ -39,7 +39,7 @@ class StubMongoDBOperations:
         data.sort(key=self.my_sort)
         return StubMongoDBOperations(self.data)
 
-    async def to_list(self, limit=None):
+    def to_list(self, limit=None):
         data = self.data
         return data[:limit]
 

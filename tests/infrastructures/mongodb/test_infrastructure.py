@@ -1,16 +1,18 @@
+# Standard Library
 from unittest.mock import MagicMock, patch
 
-import decouple
+# Third-Party Libraries
 import pytest
-from motor.motor_asyncio import AsyncIOMotorClient
-from decouple import config
+from pymongo import MongoClient
+
+# IRango
 from src.infrastructures.mongodb.infrastructure import MongoDBInfrastructure
-from tests.infrastructures.mongodb.stub import StubAsyncIOMotorClient
+from tests.infrastructures.mongodb.stub import StubPyMongoClient
 
 
-@patch.object(AsyncIOMotorClient, "__new__")
+@patch.object(MongoClient, "__new__")
 def test_get_client(mongodb_client_patch: MagicMock):
-    stub = StubAsyncIOMotorClient()
+    stub = StubPyMongoClient()
     mongodb_client_patch.return_value = stub
 
     client = MongoDBInfrastructure.get_client()
@@ -18,9 +20,9 @@ def test_get_client(mongodb_client_patch: MagicMock):
     assert client == stub
 
 
-@patch.object(AsyncIOMotorClient, "__new__")
+@patch.object(MongoClient, "__new__")
 def test_get_client_client_already_created(mongodb_client_patch: MagicMock):
-    stub = StubAsyncIOMotorClient()
+    stub = StubPyMongoClient()
     mongodb_client_patch.return_value = stub
 
     client_one = MongoDBInfrastructure.get_client()
@@ -30,7 +32,7 @@ def test_get_client_client_already_created(mongodb_client_patch: MagicMock):
     MongoDBInfrastructure.mongodb_client = None
 
 
-@patch.object(AsyncIOMotorClient, "__new__")
+@patch.object(MongoClient, "__new__")
 def test_get_client_error(mongodb_client_patch: MagicMock):
     with pytest.raises(Exception):
         mongodb_client_patch.side_effect = Exception

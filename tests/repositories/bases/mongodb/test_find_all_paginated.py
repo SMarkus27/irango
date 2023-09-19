@@ -1,9 +1,6 @@
 # Standard Library
 from unittest.mock import patch, MagicMock
 
-# Third-Party Library
-import pytest
-
 # IRango
 from src.repositories.bases.mongodb.repository import BaseMongoDBRepository
 from tests.repositories.bases.mongodb.stub_mongodb_operations import (
@@ -11,9 +8,8 @@ from tests.repositories.bases.mongodb.stub_mongodb_operations import (
 )
 
 
-@pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_get_mongodb_base_collection")
-async def test_find_all_paginated_no_items(
+def test_find_all_paginated_no_items(
     _get_mongodb_base_collection_patch: MagicMock,
 ):
     data = []
@@ -26,14 +22,13 @@ async def test_find_all_paginated_no_items(
     }
     projection = {"_id": False}
 
-    result = await BaseMongoDBRepository.find_all_paginated(query, projection, 0, 0)
+    result = BaseMongoDBRepository.find_all_paginated(query, projection, 0, 0)
 
     assert result == expected
 
 
-@pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_get_mongodb_base_collection")
-async def test_find_all_paginated_sorted(_get_mongodb_base_collection_patch: MagicMock):
+def test_find_all_paginated_sorted(_get_mongodb_base_collection_patch: MagicMock):
     data = [
         {"name": "IRango", "email": "iragon@email.com", "id": "1234"},
         {"name": "IRango2", "email": "iragon2@email.com", "id": "1234"},
@@ -46,18 +41,17 @@ async def test_find_all_paginated_sorted(_get_mongodb_base_collection_patch: Mag
     }
     projection = {"_id": False}
 
-    expected = ([{"name": "IRango", "email": "iragon@email.com", "id": "1234"}], 2)
+    expected = ([{'name': 'IRango', 'email': 'iragon@email.com', 'id': '1234'}, {'name': 'IRango2', 'email': 'iragon2@email.com', 'id': '1234'}], 2)
 
-    result = await BaseMongoDBRepository.find_all_paginated(
+
+    result = BaseMongoDBRepository.find_all_paginated(
         query, projection, 0, 1, ("name",)
     )
-
     assert result == expected
 
 
-@pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_get_mongodb_base_collection")
-async def test_find_all_paginated(_get_mongodb_base_collection_patch: MagicMock):
+def test_find_all_paginated(_get_mongodb_base_collection_patch: MagicMock):
     data = [
         {"name": "IRango", "email": "iragon@email.com", "id": "1234"},
         {"name": "IRango2", "email": "iragon2@email.com", "id": "1234"},
@@ -70,8 +64,7 @@ async def test_find_all_paginated(_get_mongodb_base_collection_patch: MagicMock)
     }
     projection = {"_id": False}
 
-    expected = ([{"name": "IRango", "email": "iragon@email.com", "id": "1234"}], 2)
+    expected = ([{'name': 'IRango', 'email': 'iragon@email.com', 'id': '1234'}, {'name': 'IRango2', 'email': 'iragon2@email.com', 'id': '1234'}], 2)
 
-    result = await BaseMongoDBRepository.find_all_paginated(query, projection, 0, 1)
-
+    result = BaseMongoDBRepository.find_all_paginated(query, projection, 0, 1)
     assert result == expected

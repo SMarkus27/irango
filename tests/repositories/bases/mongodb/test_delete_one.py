@@ -11,12 +11,11 @@ from tests.repositories.bases.mongodb.stub_mongodb_operations import (
 )
 
 
-@pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_get_mongodb_base_collection")
-async def test_delete_one(_get_mongodb_base_collection_patch: MagicMock):
+def test_delete_one(_get_mongodb_base_collection_patch: MagicMock):
     query = {"name": "IRango"}
 
     _get_mongodb_base_collection_patch.return_value = StubMongoDBOperations()
 
-    await BaseMongoDBRepository.delete_one(query)
+    BaseMongoDBRepository.delete_one(query)
     assert _get_mongodb_base_collection_patch.delete_one_called

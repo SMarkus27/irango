@@ -1,9 +1,6 @@
 # Standard Library
 from unittest.mock import patch, MagicMock
 
-# Third-Party Library
-import pytest
-
 # IRango
 from src.repositories.bases.mongodb.repository import BaseMongoDBRepository
 from src.repositories.products.repository import ProductsRepository
@@ -11,13 +8,12 @@ from tests.repositories.bases.mongodb.stub_mongodb_operations import StubMongoDB
 
 
 @patch.object(BaseMongoDBRepository, "_get_mongodb_base_collection")
-@pytest.mark.asyncio
-async def test_delete_one_in_array(_get_mongodb_base_collection_patch: MagicMock):
+def test_delete_one_in_array(_get_mongodb_base_collection_patch: MagicMock):
     query = {"name": "IRango"}
 
     product_data = {"email": "iragon2@email.com"}
 
     _get_mongodb_base_collection_patch.return_value = StubMongoDBOperations()
 
-    await ProductsRepository.delete_one_in_array(query, product_data)
+    ProductsRepository.delete_one_in_array(query, product_data)
     assert _get_mongodb_base_collection_patch.update_one_called

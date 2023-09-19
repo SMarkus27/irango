@@ -6,32 +6,30 @@ import pytest
 
 # IRango
 from src.repositories.bases.mongodb.repository import BaseMongoDBRepository
-from tests.infrastructures.mongodb.stub import StubAsyncIOMotorClient
+from tests.infrastructures.mongodb.stub import StubPyMongoClient
 
 
-@pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_set_mongodb_base_collection")
-async def test_get_mongodb_base_collection_non_empty_collection(
+def test_get_mongodb_base_collection_non_empty_collection(
     _set_mongodb_base_collection_patch: MagicMock,
 ):
     BaseMongoDBRepository._mongodb_collection_in_connection = None
 
-    _set_mongodb_base_collection_patch.return_value = StubAsyncIOMotorClient
+    _set_mongodb_base_collection_patch.return_value = StubPyMongoClient
 
-    assert await BaseMongoDBRepository._get_mongodb_base_collection()
+    assert BaseMongoDBRepository._get_mongodb_base_collection()
 
 
-@pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_set_mongodb_base_collection")
-async def test_get_mongodb_base_collection_non_empty_collection(
+def test_get_mongodb_base_collection_non_empty_collection(
     _set_mongodb_base_collection_patch: MagicMock,
 ):
     BaseMongoDBRepository._mongodb_collection_in_connection = None
 
-    _set_mongodb_base_collection_patch.return_value = StubAsyncIOMotorClient
+    _set_mongodb_base_collection_patch.return_value = StubPyMongoClient
 
-    client_one = await BaseMongoDBRepository._get_mongodb_base_collection()
+    client_one = BaseMongoDBRepository._get_mongodb_base_collection()
 
-    client_two = await BaseMongoDBRepository._get_mongodb_base_collection()
+    client_two = BaseMongoDBRepository._get_mongodb_base_collection()
 
     assert client_one == client_two
