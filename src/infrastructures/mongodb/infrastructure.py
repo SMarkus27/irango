@@ -1,5 +1,5 @@
 # Third-Party Library
-from motor.motor_asyncio import AsyncIOMotorClient
+import pymongo as pymongo
 from decouple import config
 
 # IRango
@@ -11,10 +11,10 @@ class MongoDBInfrastructure(IMongoDBInfrastructure):
     mongodb_url_connection: str = config("MONGODB_URL_CONNECTION")
 
     @classmethod
-    def get_client(cls) -> AsyncIOMotorClient:
+    def get_client(cls):
         try:
             if cls.mongodb_client is None:
-                cls.mongodb_client = AsyncIOMotorClient(cls.mongodb_url_connection)
+                cls.mongodb_client = pymongo.MongoClient(cls.mongodb_url_connection)
             return cls.mongodb_client
 
         except Exception as error:
