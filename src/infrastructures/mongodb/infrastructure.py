@@ -1,5 +1,5 @@
-# Third-Party Library
-import pymongo as pymongo
+# Third-Party Libraries
+from pymongo import MongoClient
 from decouple import config
 
 # IRango
@@ -14,7 +14,7 @@ class MongoDBInfrastructure(IMongoDBInfrastructure):
     def get_client(cls):
         try:
             if cls.mongodb_client is None:
-                cls.mongodb_client = pymongo.MongoClient(cls.mongodb_url_connection)
+                cls.mongodb_client = MongoClient(cls.mongodb_url_connection)
             return cls.mongodb_client
 
         except Exception as error:

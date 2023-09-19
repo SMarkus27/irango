@@ -11,9 +11,8 @@ from tests.repositories.bases.mongodb.stub_mongodb_operations import (
 )
 
 
-@pytest.mark.asyncio
 @patch.object(BaseMongoDBRepository, "_get_mongodb_base_collection")
-async def test_find_one(_get_mongodb_base_collection_patch: MagicMock):
+def test_find_one(_get_mongodb_base_collection_patch: MagicMock):
     data = {"name": "IRango", "email": "iragon@email.com", "id": "1234"}
 
     _get_mongodb_base_collection_patch.return_value = StubMongoDBOperations(data)
@@ -23,6 +22,6 @@ async def test_find_one(_get_mongodb_base_collection_patch: MagicMock):
     }
     projection = {"_id": False}
 
-    result = await BaseMongoDBRepository.find_one(query, projection)
+    result = BaseMongoDBRepository.find_one(query, projection)
 
     assert result == data

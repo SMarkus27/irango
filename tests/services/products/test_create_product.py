@@ -12,7 +12,6 @@ from src.services.products.service import ProductsService
 
 
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
 async def test_create_product_restaurant_not_found(find_one_patch: MagicMock):
     payload = {"restaurant_id": "1234"}
 
@@ -22,7 +21,7 @@ async def test_create_product_restaurant_not_found(find_one_patch: MagicMock):
                 "message": "Restaurant 1234 not found",
                 "status_code": 204,
             }
-    result = await ProductsService.create_product(payload)
+    result = ProductsService.create_product(payload)
 
     assert result == expected
 
