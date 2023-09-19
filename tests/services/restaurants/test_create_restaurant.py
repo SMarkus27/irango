@@ -1,14 +1,13 @@
+# Standard Library
 from unittest.mock import patch, MagicMock
 
-import pytest
-
+# IRango
 from src.repositories.restaurants.repository import RestaurantsRepository
 from src.services.restaurants.service import RestaurantsService
 
 
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_create_restaurant_restaurant_already_exist(find_one_patch: MagicMock):
+def test_create_restaurant_restaurant_already_exist(find_one_patch: MagicMock):
     payload = {
         "data": {
             "name": "burgers",
@@ -26,15 +25,14 @@ async def test_create_restaurant_restaurant_already_exist(find_one_patch: MagicM
         "status_code": 200,
     }
 
-    result = await RestaurantsService.create_restaurant(payload)
+    result =  RestaurantsService.create_restaurant(payload)
 
     assert result == expected
 
 
 @patch.object(RestaurantsRepository, "insert_one")
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_create_restaurant_restaurant(find_one_patch: MagicMock, insert_one_patch: MagicMock):
+def test_create_restaurant_restaurant(find_one_patch: MagicMock, insert_one_patch: MagicMock):
     payload = {
         "data": {
             "name": "burgers",
@@ -47,6 +45,6 @@ async def test_create_restaurant_restaurant(find_one_patch: MagicMock, insert_on
 
     insert_one_patch.return_value = True
 
-    result = await RestaurantsService.create_restaurant(payload)
+    result =  RestaurantsService.create_restaurant(payload)
 
     assert result == expected

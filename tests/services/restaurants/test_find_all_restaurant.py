@@ -1,14 +1,13 @@
+# Standard Library
 from unittest.mock import patch, MagicMock
 
-import pytest
-
+# IRango
 from src.repositories.restaurants.repository import RestaurantsRepository
 from src.services.restaurants.service import RestaurantsService
 
 
 @patch.object(RestaurantsRepository, "find_all_paginated")
-@pytest.mark.asyncio
-async def test_find_all_restaurant(find_all_paginated_patch: MagicMock):
+def test_find_all_restaurant(find_all_paginated_patch: MagicMock):
     payload = {}
 
     restaurant_info = [{
@@ -26,14 +25,13 @@ async def test_find_all_restaurant(find_all_paginated_patch: MagicMock):
 
     expected = {'result': [{'name': 'burgers', 'id': 1}, {'name': 'burgers', 'id': 1}], 'total_items': 2, 'total_pages': 1, 'message': 'Restaurant found', 'status_code': 200}
 
-    result = await RestaurantsService.find_all_restaurant(payload)
+    result = RestaurantsService.find_all_restaurant(payload)
 
     assert result == expected
 
 
 @patch.object(RestaurantsRepository, "find_all_paginated")
-@pytest.mark.asyncio
-async def test_find_all_restaurant_by_name(find_all_paginated_patch: MagicMock):
+def test_find_all_restaurant_by_name(find_all_paginated_patch: MagicMock):
     payload = {
         "name": "Bur"
     }
@@ -53,14 +51,13 @@ async def test_find_all_restaurant_by_name(find_all_paginated_patch: MagicMock):
 
     expected = {'result': [{'name': 'Burgers', 'id': 1}, {'name': 'burgers', 'id': 1}], 'total_items': 2, 'total_pages': 1, 'message': 'Restaurant found', 'status_code': 200}
 
-    result = await RestaurantsService.find_all_restaurant(payload)
+    result = RestaurantsService.find_all_restaurant(payload)
 
     assert result == expected
 
 
 @patch.object(RestaurantsRepository, "find_all_paginated")
-@pytest.mark.asyncio
-async def test_find_all_restaurant_restaurant_not_found(find_all_paginated_patch: MagicMock):
+def test_find_all_restaurant_restaurant_not_found(find_all_paginated_patch: MagicMock):
     payload = {
         "name": "Bur"
     }
@@ -70,6 +67,6 @@ async def test_find_all_restaurant_restaurant_not_found(find_all_paginated_patch
 
     expected = {"message": f"Restaurant not found", "status_code": 204}
 
-    result = await RestaurantsService.find_all_restaurant(payload)
+    result = RestaurantsService.find_all_restaurant(payload)
 
     assert result == expected

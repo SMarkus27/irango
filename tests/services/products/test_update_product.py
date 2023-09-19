@@ -2,9 +2,6 @@
 from collections import namedtuple
 from unittest.mock import patch, MagicMock
 
-# Third-Party Library
-import pytest
-
 # IRango
 from src.repositories.products.repository import ProductsRepository
 from src.repositories.restaurants.repository import RestaurantsRepository
@@ -12,8 +9,7 @@ from src.services.products.service import ProductsService
 
 
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_update_product_restaurant_not_found_not_updated(find_one_patch: MagicMock):
+def test_update_product_restaurant_not_found_not_updated(find_one_patch: MagicMock):
 
     payload = {
         "product_id": "xl-burger",
@@ -31,21 +27,19 @@ async def test_update_product_restaurant_not_found_not_updated(find_one_patch: M
         "status_code": 204,
     }
 
-    result = await ProductsService.update_product(payload)
+    result = ProductsService.update_product(payload)
 
     assert result == expected
 
 
 @patch.object(RestaurantsRepository, "find_one")
 @patch.object(ProductsRepository, "update_one")
-@pytest.mark.asyncio
-async def test_update_product_product_not_updated(update_one_patch: MagicMock, find_one_patch: MagicMock):
+def test_update_product_product_not_updated(update_one_patch: MagicMock, find_one_patch: MagicMock):
 
     payload = {
         "product_id": "xl-burger",
         "restaurant_id": 1,
-        "update_data": {
-            "product_id": 12,
+        "product_data": {
             "name": "large burger"
         }
     }
@@ -73,19 +67,18 @@ async def test_update_product_product_not_updated(update_one_patch: MagicMock, f
         "status_code": 200,
     }
 
-    result = await ProductsService.update_product(payload)
+    result = ProductsService.update_product(payload)
 
     assert result == expected
 
 
 @patch.object(RestaurantsRepository, "find_one")
 @patch.object(ProductsRepository, "update_one")
-@pytest.mark.asyncio
-async def test_update_product(update_one_patch: MagicMock, find_one_patch: MagicMock):
+def test_update_product(update_one_patch: MagicMock, find_one_patch: MagicMock):
     payload = {
         "product_id": "xl-burger",
         "restaurant_id": 1,
-        "update_data": {
+        "product_data": {
             "product_id": 12,
             "name": "large burger"
         }
@@ -113,6 +106,6 @@ async def test_update_product(update_one_patch: MagicMock, find_one_patch: Magic
         "message": f"Product updated",
         "status_code": 201,
     }
-    result = await ProductsService.update_product(payload)
+    result = ProductsService.update_product(payload)
 
     assert result == expected

@@ -2,9 +2,6 @@
 from collections import namedtuple
 from unittest.mock import patch, MagicMock
 
-# Third-Party Library
-import pytest
-
 # IRango
 from src.repositories.products.repository import ProductsRepository
 from src.repositories.restaurants.repository import RestaurantsRepository
@@ -12,8 +9,7 @@ from src.services.products.service import ProductsService
 
 
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_delete_product_restaurant_not_found(find_one_patch: MagicMock):
+def test_delete_product_restaurant_not_found(find_one_patch: MagicMock):
 
     payload = {
         "product_id": "xl-burger",
@@ -31,15 +27,14 @@ async def test_delete_product_restaurant_not_found(find_one_patch: MagicMock):
         "status_code": 204,
     }
 
-    result = await ProductsService.delete_product(payload)
+    result = ProductsService.delete_product(payload)
 
     assert result == expected
 
 
 @patch.object(RestaurantsRepository, "find_one")
 @patch.object(ProductsRepository, "delete_one_in_array")
-@pytest.mark.asyncio
-async def test_delete_product_product_not_deleted(delete_one_in_array_patch: MagicMock, find_one_patch: MagicMock):
+def test_delete_product_product_not_deleted(delete_one_in_array_patch: MagicMock, find_one_patch: MagicMock):
 
     payload = {
         "product_id": "xl-burger",
@@ -73,15 +68,14 @@ async def test_delete_product_product_not_deleted(delete_one_in_array_patch: Mag
         "status_code": 200,
     }
 
-    result = await ProductsService.delete_product(payload)
+    result = ProductsService.delete_product(payload)
 
     assert result == expected
 
 
 @patch.object(RestaurantsRepository, "find_one")
 @patch.object(ProductsRepository, "delete_one_in_array")
-@pytest.mark.asyncio
-async def test_delete_product(delete_one_in_array_patch: MagicMock, find_one_patch: MagicMock):
+def test_delete_product(delete_one_in_array_patch: MagicMock, find_one_patch: MagicMock):
     payload = {
         "product_id": "xl-burger",
         "restaurant_id": 1,
@@ -112,6 +106,6 @@ async def test_delete_product(delete_one_in_array_patch: MagicMock, find_one_pat
         "message": f"Product deleted",
         "status_code": 201,
     }
-    result = await ProductsService.delete_product(payload)
+    result = ProductsService.delete_product(payload)
 
     assert result == expected

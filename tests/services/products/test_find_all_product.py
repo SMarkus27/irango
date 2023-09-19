@@ -1,17 +1,13 @@
 # Standard Library
 from unittest.mock import patch, MagicMock
 
-# Third-Party Library
-import pytest
-
 # IRango
 from src.repositories.restaurants.repository import RestaurantsRepository
 from src.services.products.service import ProductsService
 
 
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_find_one_product_restaurant_not_found(find_one_patch: MagicMock):
+def test_find_one_product_restaurant_not_found(find_one_patch: MagicMock):
     payload = {
         "restaurant_id": "burgers"
     }
@@ -21,14 +17,13 @@ async def test_find_one_product_restaurant_not_found(find_one_patch: MagicMock):
     expected = {"message": f"Restaurant burgers not found",
                 "status_code": 204}
 
-    result = await ProductsService.find_all_product(payload)
+    result = ProductsService.find_all_product(payload)
 
     assert result == expected
 
 
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_find_one_product(find_one_patch: MagicMock):
+def test_find_one_product(find_one_patch: MagicMock):
     payload = {
         "restaurant_id": "burgers"
     }
@@ -50,6 +45,6 @@ async def test_find_one_product(find_one_patch: MagicMock):
             "status_code": 204,
         }
 
-    result = await ProductsService.find_all_product(payload)
+    result = ProductsService.find_all_product(payload)
 
     assert result == expected

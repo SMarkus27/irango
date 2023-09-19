@@ -2,9 +2,6 @@
 from collections import namedtuple
 from unittest.mock import patch, MagicMock
 
-# Third-Party Library
-import pytest
-
 # IRango
 from src.repositories.products.repository import ProductsRepository
 from src.repositories.restaurants.repository import RestaurantsRepository
@@ -12,7 +9,7 @@ from src.services.products.service import ProductsService
 
 
 @patch.object(RestaurantsRepository, "find_one")
-async def test_create_product_restaurant_not_found(find_one_patch: MagicMock):
+def test_create_product_restaurant_not_found(find_one_patch: MagicMock):
     payload = {"restaurant_id": "1234"}
 
     find_one_patch.return_value = None
@@ -27,15 +24,12 @@ async def test_create_product_restaurant_not_found(find_one_patch: MagicMock):
 
 
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_create_product_product_already_exist(find_one_patch: MagicMock):
+def test_create_product_product_already_exist(find_one_patch: MagicMock):
     payload = {
         "restaurant_id": "1234",
         "product_data": {
-            "products": {
                 "name": "x-burger"
             }
-        }
     }
     product_in_restaurant = {
         "products": [{
@@ -48,21 +42,18 @@ async def test_create_product_product_already_exist(find_one_patch: MagicMock):
                 "message": "Product x-burger already exist",
                 "status_code": 204,
             }
-    result = await ProductsService.create_product(payload)
+    result = ProductsService.create_product(payload)
 
     assert result == expected
 
 
 @patch.object(ProductsRepository, "add_one_in_array")
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_create_product_product(find_one_patch: MagicMock, add_one_in_array_patch: MagicMock):
+def test_create_product_product(find_one_patch: MagicMock, add_one_in_array_patch: MagicMock):
     payload = {
         "restaurant_id": "1234",
         "product_data": {
-            "products": {
-                "name": "x-burger2"
-            }
+            "name": "x-burger2"
         }
     }
     product_in_restaurant = {
@@ -80,20 +71,17 @@ async def test_create_product_product(find_one_patch: MagicMock, add_one_in_arra
                 "status_code": 201,
             }
 
-    result = await ProductsService.create_product(payload)
+    result = ProductsService.create_product(payload)
     assert result == expected
 
 
 @patch.object(ProductsRepository, "add_one_in_array")
 @patch.object(RestaurantsRepository, "find_one")
-@pytest.mark.asyncio
-async def test_create_product_product_not_created(find_one_patch: MagicMock, add_one_in_array_patch: MagicMock):
+def test_create_product_product_not_created(find_one_patch: MagicMock, add_one_in_array_patch: MagicMock):
     payload = {
         "restaurant_id": "1234",
         "product_data": {
-            "products": {
-                "name": "x-burger2"
-            }
+            "name": "x-burger2"
         }
     }
     product_in_restaurant = {
@@ -111,5 +99,5 @@ async def test_create_product_product_not_created(find_one_patch: MagicMock, add
                 "status_code": 200
             }
 
-    result = await ProductsService.create_product(payload)
+    result = ProductsService.create_product(payload)
     assert result == expected
