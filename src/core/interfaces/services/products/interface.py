@@ -9,7 +9,7 @@ from src.repositories.restaurants.repository import RestaurantsRepository
 class IProductsService(metaclass=ABCMeta):
     @classmethod
     @abstractmethod
-    async def create_product(
+    def create_product(
         cls,
         payload: dict,
         restaurant_repository=RestaurantsRepository,
@@ -19,28 +19,28 @@ class IProductsService(metaclass=ABCMeta):
 
     @classmethod
     @abstractmethod
-    async def find_one_product(
+    def find_one_product(
         cls, payload: dict, restaurant_repository=RestaurantsRepository
     ):
         pass
 
     @classmethod
     @abstractmethod
-    async def find_all_product(
+    def find_all_product(
         cls, payload: dict, restaurant_repository=RestaurantsRepository
     ):
         pass
 
     @classmethod
     @abstractmethod
-    async def update_product(
+    def update_product(
         cls, payload: dict, restaurant_repository=RestaurantsRepository
     ):
         pass
 
     @classmethod
     @abstractmethod
-    async def delete_product(
+    def delete_product(
         cls, payload: dict, products_repository=ProductsRepository
     ):
         pass
