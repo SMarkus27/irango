@@ -8,17 +8,17 @@ from pymongo.results import DeleteResult, UpdateResult
 class IBaseMongoDBRepository(metaclass=ABCMeta):
     @classmethod
     @abstractmethod
-    async def insert_one(cls, data) -> None:
+    def insert_one(cls, data) -> None:
         pass
 
     @classmethod
     @abstractmethod
-    async def find_one(cls, query: dict, projection: dict) -> dict:
+    def find_one(cls, query: dict, projection: dict) -> dict:
         pass
 
     @classmethod
     @abstractmethod
-    async def update_one(
+    def update_one(
         cls,
         query: dict,
         update_data: dict,
@@ -29,5 +29,5 @@ class IBaseMongoDBRepository(metaclass=ABCMeta):
 
     @classmethod
     @abstractmethod
-    async def delete_one(cls, query: dict) -> DeleteResult:
+    def delete_one(cls, query: dict) -> DeleteResult:
         pass
