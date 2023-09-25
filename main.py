@@ -1,8 +1,8 @@
+from decouple import config
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
 
-from src.repositories.cache.repository import CacheRepository
 from src.routes.restaurants.route import restaurant
 from src.routes.products.route import products
 from src.routes.users.route import users
@@ -17,7 +17,7 @@ app.config["OPENAPI_VERSION"] = "3.0.3"
 app.config["OPENAPI_URL_PREFIX"] = "/"
 app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-app.config["JWT_SECRET_KEY"] = "xaps"
+app.config["JWT_SECRET_KEY"] = config("JWT_SECRET_KEY")
 
 jwt = JWTManager(app)
 

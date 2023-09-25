@@ -1,11 +1,14 @@
+# Standard Library
 from uuid import uuid4
 
+# Third-Party Libraries
 from flask_jwt_extended import create_access_token
+from passlib.hash import pbkdf2_sha256
 
+# IRango
 from src.core.interfaces.services.users.interface import IUsersService
 from src.repositories.cache.repository import CacheRepository
 from src.repositories.users.repository import UsersRepository
-from passlib.hash import pbkdf2_sha256
 
 
 class UsersService(IUsersService):
@@ -66,7 +69,6 @@ class UsersService(IUsersService):
                 "user_id": user_info.get("user_id")
             }
             access_token = create_access_token(identity)
-
             return {
                 "access_token": access_token,
                 "status_code": 200
