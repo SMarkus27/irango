@@ -65,7 +65,6 @@ class RestaurantsService(IRestaurantsService):
         results, total_items = restaurant_repository.find_all_paginated(
             query, projection, skip, limit, sort
         )
-        print(results)
 
         if not results:
             return {"message": f"Restaurant not found", "status_code": 204}

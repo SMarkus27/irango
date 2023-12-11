@@ -2,6 +2,7 @@ from decouple import config
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
+from flask_cors import CORS
 
 from src.routes.restaurants.route import restaurant
 from src.routes.products.route import products
@@ -19,8 +20,9 @@ app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 app.config["JWT_SECRET_KEY"] = config("JWT_SECRET_KEY")
 
-jwt = JWTManager(app)
+CORS(app)
 
+jwt = JWTManager(app)
 
 @jwt.token_in_blocklist_loader
 def token_in_blocklist_loader(jwt_header, jwt_payload):
@@ -68,4 +70,4 @@ api.register_blueprint(products)
 api.register_blueprint(users)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0")
