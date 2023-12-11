@@ -24,7 +24,6 @@ CORS(app)
 
 jwt = JWTManager(app)
 
-
 @jwt.token_in_blocklist_loader
 def token_in_blocklist_loader(jwt_header, jwt_payload):
     jti = jwt_payload["jti"]
