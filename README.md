@@ -12,18 +12,27 @@ This API you can do:
 * Delete restaurant product
 
 ### Tech Stack
-* Python 3.10
+* Python 3.11
 * MongoDB
 * Redis
 
 ### First Step
+* If you have docker on your machine, run the code below and go to the section [How to use the API](#-How-to-use-the-API).
+* We will use docker compose to manager our containers with our application and Redis and MongoDB.
+```
+docker-compose up -d
+```
+
 * Creates a virtual environment for the project.
 ```
 python -m venv venv
 ```
-* Install all packages in requirements.txt.
+* Install all packages with poetry.
 ```
-pip install -r requirements.txt
+pip install poetry
+```
+```
+poetry install 
 ```
 * Creates a .env file and use the .env_example file as a model.
 
