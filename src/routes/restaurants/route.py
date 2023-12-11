@@ -1,3 +1,4 @@
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from flask import jsonify, request
 
@@ -9,6 +10,7 @@ restaurant = Blueprint("restaurant", "restaurant", description="Restaurants")
 
 
 @restaurant.post("/restaurants")
+@jwt_required()
 @restaurant.arguments(RestaurantSchema)
 def create_restaurant(restaurant_data: dict):
     return RestaurantsService.create_restaurant({"data": restaurant_data})
@@ -33,6 +35,7 @@ def find_all_restaurant(xaps):
 
 
 @restaurant.put("/restaurants/<string:restaurant_id>")
+@jwt_required()
 @restaurant.arguments(RestaurantSchema)
 def update_restaurant(restaurant_data: dict, restaurant_id: str ):
     payload = {
@@ -43,5 +46,6 @@ def update_restaurant(restaurant_data: dict, restaurant_id: str ):
 
 
 @restaurant.delete("/restaurants/<string:restaurant_id>")
+@jwt_required()
 def delete_restaurant(restaurant_id: str):
     return RestaurantsService.delete_restaurant({"restaurant_id": restaurant_id})
